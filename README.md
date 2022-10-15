@@ -1,0 +1,2 @@
+Learning how to use vue components to make independent parts of a code, also made use of import and export, divided the code into various sections for code readability and error finding.
+made use of node js and Vue cli.
