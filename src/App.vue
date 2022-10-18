@@ -3,15 +3,31 @@
     <header>
         <h1>Friend List</h1>
     </header>
+    <new-friend @add-contact="addContact"></new-friend>
     <ul>
-        <friend-contact></friend-contact>
-        <friend-contact></friend-contact>
+        <friend-contact
+        v-for="friend in friends"
+        :key="friend.id"
+        :id="friend.id"
+        :name="friend.Name"
+        :phone-number="friend.Number"
+        :email-address="friend.Email"
+        :is-favorite="friend.isFavorite"
+        @toggle-favorite="toggleFavoriteStatus"
+        @delete="deleteContact"
+        ></friend-contact>
+        <!-- <friend-contact
+        name="Noma Osasuyi"
+        phone-number="090 3334 4824"
+        email-address="nomaosasuyi@gmail.com"
+        ></friend-contact> -->
     </ul>
   </section>
 </template>
 
 <script>
-    export default {
+//import NewFriend from "./components/NewFriend.vue";
+  export default {
         data() {
             return{
                 friends:[
@@ -19,17 +35,38 @@
                     id: 'Favorite',
                     Name: 'Favorite Nwanzi',
                     Number: '070 4762 1107 ',
-                    Email: 'favournwanzi@gmail.com'
+                    Email: 'favournwanzi@gmail.com',
+                    isFavorite: true
                 },
                 {
                     id: 'Noma',
                     Name: 'Noma Osasuyi',
                     Number: '090 3334 4824',
-                    Email: 'nomaosasuyi@gmail.com'
-                }
+                    Email: 'nomaosasuyi@gmail.com',
+                    isFavorite: false
+                },
                 ]
             }
-        }
+        },
+        methods:{
+              toggleFavoriteStatus(friendId){
+              const identifiedFriends = this.friends.find(friend => friend.id === friendId)
+              identifiedFriends.isFavorite = !identifiedFriends.isFavorite
+              },
+              addContact(name, number, email){
+                const newFriendContact = {
+                  id: new Date().toISOString(),
+                  Name: name,
+                  Number: number,
+                  Email: email,
+                  isFavorite: false
+                }
+                this.friends.push(newFriendContact)
+              },
+              deleteContact(friendId){
+                this.friends = this.friends.filter((friend) => friend.id !== friendId)
+              }
+            }
     };
     
 </script>
@@ -40,7 +77,7 @@
 }
 
 html {
-  font-family: 'Jost', sans-serif;
+  font-family: "Jost", sans-serif;
 }
 
 body {
@@ -65,7 +102,7 @@ header {
   list-style: none;
 }
 
-#app li {
+#app li, #app form {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   margin: 1rem auto;
   border-radius: 10px;
@@ -73,6 +110,22 @@ header {
   text-align: center;
   width: 90%;
   max-width: 40rem;
+}
+
+#app input{
+  font:inherit;
+  padding: 0.15rem;
+}
+
+#app label{
+  font-weight: bold;
+  margin-right: 1rem;
+  width: 7rem;
+  display: inline-block;
+}
+
+#app form div{
+  margin: 1rem 0;
 }
 
 #app h2 {
